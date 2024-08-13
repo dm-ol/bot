@@ -10,9 +10,10 @@ from handlers.remove_category import remove_category
 
 
 def main() -> None:
+    # Create the Updater and pass it your bot's token
     updater = Updater("YOUR TELEGRAM BOT TOKEN")
 
-    # Існуючі обробники
+    # Register handlers for different commands and messages
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
     updater.dispatcher.add_handler(CommandHandler('done', done))
@@ -21,12 +22,15 @@ def main() -> None:
         Filters.text & ~Filters.command, add_item))
     updater.dispatcher.add_handler(CommandHandler('remove', remove_item))
 
-    # Нові обробники для категорій
+    # Handlers for adding and removing categories
     updater.dispatcher.add_handler(CommandHandler('addcategory', add_category))
     updater.dispatcher.add_handler(
         CommandHandler('removecategory', remove_category))
 
+    # Start polling for updates
     updater.start_polling()
+
+    # Block until you press Ctrl+C
     updater.idle()
 
 
