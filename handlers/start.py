@@ -12,4 +12,4 @@ def start(update, context) -> None:
 
     # Send the initial message with the keyboard to select a category
     update.message.reply_text(
-        'Please select a category:', reply_markup=reply_markup)
+        'Будь ласка, оберіть категорію:', reply_markup=reply_markup)

@@ -12,7 +12,7 @@ def button(update, context) -> None:
         context.user_data['current_category'] = category
         context.user_data['current_subcategory'] = subcategory
         query.edit_message_text(
-            text=f"Add an item to the {subcategory} subcategory. Enter the item name or use /done to finish.")
+            text=f"Додайте товар до підкатегорії {subcategory}. Введіть назву товару або використайте /done щоб завершити.")
     else:  # If it's a category
         category = data
         subcategories = shopping_list[category].keys()
@@ -25,4 +25,4 @@ def button(update, context) -> None:
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(
-            text=f"Please select a subcategory in {category}:", reply_markup=reply_markup)
+            text=f"Будь ласка, оберіть підкатегорію в {category}:", reply_markup=reply_markup)

@@ -11,4 +11,5 @@ def add_item(update, context) -> None:
         item = update.message.text
         # Add the item to the corresponding subcategory list
         shopping_list[category][subcategory].append(item)
-        update.message.reply_text(f"Item '{item}' added to {subcategory}.")
+        update.message.reply_text(
+            f"Товар '{item}' додано до підкатегорії {subcategory}.")

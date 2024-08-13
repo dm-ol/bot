@@ -2,6 +2,7 @@ from data.shopping_list import shopping_list
 
 
 def view_list(update, context) -> None:
+    # Generate a formatted message of the entire shopping list
     message = "Ваш список покупок:\n"
     for category, subcategories in shopping_list.items():
         message += f"\n*{category}*:\n"
