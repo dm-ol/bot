@@ -1,3 +1,4 @@
+import getpass
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
 from handlers.start import start
 from handlers.button import button
@@ -13,8 +14,11 @@ from handlers.edit_item import edit_item
 
 
 def main() -> None:
+    # Prompt the user to enter their Telegram bot token
+    token = getpass.getpass("Введіть токен вашого Telegram бота: ")
+
     # Create the Updater and pass it your bot's token
-    updater = Updater("YOUR TELEGRAM BOT TOKEN")
+    updater = Updater(token)
 
     # Register handlers for different commands and messages
     updater.dispatcher.add_handler(CommandHandler('start', start))
