@@ -7,6 +7,9 @@ from handlers.view_list import view_list
 from handlers.remove_item import remove_item
 from handlers.add_category import add_category
 from handlers.remove_category import remove_category
+from handlers.edit_category import edit_category
+from handlers.edit_subcategory import edit_subcategory
+from handlers.edit_item import edit_item
 
 
 def main() -> None:
@@ -26,6 +29,13 @@ def main() -> None:
     updater.dispatcher.add_handler(CommandHandler('addcategory', add_category))
     updater.dispatcher.add_handler(
         CommandHandler('removecategory', remove_category))
+
+    # Handlers for editing categories, subcategories, and items
+    updater.dispatcher.add_handler(
+        CommandHandler('editcategory', edit_category))
+    updater.dispatcher.add_handler(
+        CommandHandler('editsubcategory', edit_subcategory))
+    updater.dispatcher.add_handler(CommandHandler('edititem', edit_item))
 
     # Start polling for updates
     updater.start_polling()
