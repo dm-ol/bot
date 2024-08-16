@@ -1,28 +1,43 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from data.shopping_list import shopping_list
+from handlers.view_list import view_list  # Import view_list function
+from handlers.add_category import add_category
+from handlers.remove_category import remove_category
+from handlers.edit_category import edit_category
 
 
 def button(update, context) -> None:
     query = update.callback_query
     query.answer()
 
-    data = query.data
-    if "_" in data:  # If it's a subcategory
-        category, subcategory = data.split("_")
-        context.user_data['current_category'] = category
-        context.user_data['current_subcategory'] = subcategory
-        query.edit_message_text(
-            text=f"Додайте товар до підкатегорії {subcategory}. Введіть назву товару або використайте /done щоб завершити.")
-    else:  # If it's a category
-        category = data
-        subcategories = shopping_list[category].keys()
+    # Handle different actions based on the callback_data
+    if query.data == 'view_list':
+        view_list(update, context)
+    elif query.data == 'add_category':
+        add_category_prompt(update, context)
+    elif query.data == 'edit_category':
+        edit_category_prompt(update, context)
+    elif query.data == 'remove_category':
+        remove_category_prompt(update, context)
 
-        # Create buttons for subcategories
-        keyboard = [
-            [InlineKeyboardButton(
-                subcategory, callback_data=f"{category}_{subcategory}")]
-            for subcategory in subcategories
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(
-            text=f"Будь ласка, оберіть підкатегорію в {category}:", reply_markup=reply_markup)
+
+def add_category_prompt(update, context):
+    update.callback_query.message.reply_text("Введіть назву нової категорії:")
+
+
+def edit_category_prompt(update, context):
+    # Generate a list of categories for selection
+    keyboard = [[InlineKeyboardButton(
+        category, callback_data=f'edit_{category}')] for category in shopping_list.keys()]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.callback_query.message.reply_text(
+        "Оберіть категорію для редагування:", reply_markup=reply_markup)
+
+
+def remove_category_prompt(update, context):
+    # Generate a list of categories for removal
+    keyboard = [[InlineKeyboardButton(
+        category, callback_data=f'remove_{category}')] for category in shopping_list.keys()]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.callback_query.message.reply_text(
+        "Оберіть категорію для видалення:", reply_markup=reply_markup)
