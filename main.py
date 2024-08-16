@@ -20,7 +20,7 @@ def main() -> None:
     # Create the Updater and pass it your bot's token
     updater = Updater(token)
 
-    # Register handlers for different commands and messages
+    # Register handlers for the start command and button interactions
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
