@@ -1,1 +1,1 @@
-# bot
+# Shopping list Telegram-bot
