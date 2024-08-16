@@ -1,15 +1,21 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from data.shopping_list import shopping_list
 
 
 def start(update, context) -> None:
-    # Create an inline keyboard with buttons for each category
+    # Create buttons for navigating through categories
     keyboard = [
-        [InlineKeyboardButton(category, callback_data=category)]
-        for category in shopping_list.keys()
+        [InlineKeyboardButton("Переглянути список",
+                              callback_data='view_list')],
+        [InlineKeyboardButton("Додати категорію",
+                              callback_data='add_category')],
+        [InlineKeyboardButton("Редагувати категорію",
+                              callback_data='edit_category')],
+        [InlineKeyboardButton("Видалити категорію",
+                              callback_data='remove_category')]
     ]
+
+    # Create keyboard markup with the buttons
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Send the initial message with the keyboard to select a category
-    update.message.reply_text(
-        'Будь ласка, оберіть категорію:', reply_markup=reply_markup)
+    # Send a message with the navigation buttons
+    update.message.reply_text("Оберіть дію:", reply_markup=reply_markup)

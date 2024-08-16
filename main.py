@@ -1,5 +1,5 @@
 import getpass
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 from handlers.start import start
 from handlers.button import button
 from handlers.add_item import add_item
@@ -23,23 +23,6 @@ def main() -> None:
     # Register handlers for different commands and messages
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
-    updater.dispatcher.add_handler(CommandHandler('done', done))
-    updater.dispatcher.add_handler(CommandHandler('list', view_list))
-    updater.dispatcher.add_handler(MessageHandler(
-        Filters.text & ~Filters.command, add_item))
-    updater.dispatcher.add_handler(CommandHandler('remove', remove_item))
-
-    # Handlers for adding and removing categories
-    updater.dispatcher.add_handler(CommandHandler('addcategory', add_category))
-    updater.dispatcher.add_handler(
-        CommandHandler('removecategory', remove_category))
-
-    # Handlers for editing categories, subcategories, and items
-    updater.dispatcher.add_handler(
-        CommandHandler('editcategory', edit_category))
-    updater.dispatcher.add_handler(
-        CommandHandler('editsubcategory', edit_subcategory))
-    updater.dispatcher.add_handler(CommandHandler('edititem', edit_item))
 
     # Start polling for updates
     updater.start_polling()
