@@ -1,15 +1,33 @@
+from telegram import Update
+from telegram.ext import CallbackContext
 from data.shopping_list import shopping_list
 
 
-def add_item(update, context) -> None:
-    # Retrieve the current category and subcategory from the user data
-    category = context.user_data.get('current_category')
-    subcategory = context.user_data.get('current_subcategory')
+def add_item_prompt(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Введіть назву продукту:")
 
-    if category and subcategory:
-        # Get the item name from the user's message
-        item = update.message.text
-        # Add the item to the corresponding subcategory list
-        shopping_list[category][subcategory].append(item)
-        update.message.reply_text(
-            f"Товар '{item}' додано до підкатегорії {subcategory}.")
+
+def add_item(update: Update, context: CallbackContext) -> None:
+    item_name = update.message.text
+    context.user_data['item_name'] = item_name
+    update.message.reply_text(
+        f"Ви додали продукт '{item_name}'. Введіть кількість:")
+
+
+def set_item_quantity(update: Update, context: CallbackContext) -> None:
+    quantity = int(update.message.text)
+    item_name = context.user_data['item_name']
+    category = context.user_data.get('category')
+    subcategory = context.user_data.get('subcategory')
+
+    # Add the item with the specified quantity
+    for item in shopping_list[category][subcategory]:
+        if item['name'] == item_name:
+            item['quantity'] = quantity
+            break
+    else:
+        shopping_list[category][subcategory].append(
+            {'name': item_name, 'quantity': quantity})
+
+    update.message.reply_text(
+        f"Продукт '{item_name}' у кількості {quantity} додано до списку.")
